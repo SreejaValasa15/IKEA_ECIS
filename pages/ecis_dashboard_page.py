@@ -9,6 +9,7 @@ class EcisDashboardPage:
         self.menu_maintenance = page.get_by_role("link", name="Maintenance")
         self.create_vmr_proposal = page.get_by_role("link", name="Create VMR Proposal")
         self.view_vmr_proposal = page.get_by_role( "link", name="View VMR Proposal")
+        self.menu_reports = page.get_by_role("link", name="Reports")
 
 
     def dashboard_page(self):
@@ -21,6 +22,10 @@ class EcisDashboardPage:
     def click_maintenance(self):
         expect(self.menu_maintenance.first).to_be_visible(timeout=10000)
         self.menu_maintenance.first.hover()
+
+    def click_reports(self):
+        expect(self.menu_reports).to_be_visible(timeout=10000)
+        self.menu_reports.first.hover()
 
     def select_view_vmr_proposal(self):
             expect(self.menu_file).to_be_visible(timeout=10000)

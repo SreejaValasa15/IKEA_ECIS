@@ -1,6 +1,9 @@
 import pytest
 from playwright.sync_api import sync_playwright, expect
 
+import os
+import json
+
 from config.settings import BASE_URLS
 from pages.ecis_dashboard_page import EcisDashboardPage
 from pages.ecis_supplier_selection_page import EcisSupplierSelectionPage
@@ -10,21 +13,14 @@ from pages.ecis_create_vmr_page import EcisCreateVmrPage
 from pages.ecis_view_vmr_page import EcisViewVmrPage
 from pages.ecis_order_maintenance_page import EcisOrderMaintenancePage
 from pages.ecis_consignment_page import EcisConsignmentPage
+from pages.ecis_order_maintenance_report_page import EcisOrderMaintenanceReportPage
 
 @pytest.fixture(scope="function")
 def ecis_dashboard_page():
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=False)
-        context = browser.new_context(
-            permissions=["clipboard-read", "clipboard-write"]
-        )
+        context = browser.new_context()
         page = context.new_page()
-        def safe_accept_dialog(dialog):
-            try:
-                dialog.accept()
-            except Exception:
-                pass
-        page.on("dialog", safe_accept_dialog)
 
         # ---------- Step 1: Open URL ----------
         page.goto(BASE_URLS["url"])
@@ -45,7 +41,7 @@ def ecis_dashboard_page():
         except Exception:
             try:
                 # Handle session popup
-                # page.on("dialog", lambda dialog: dialog.accept())
+                page.on("dialog", lambda dialog: dialog.accept())
                 session_popup = page.locator("#serverSessionExpiryHeaderDiv")
                 if session_popup.is_visible():
                     page.wait_for_load_state("networkidle", timeout=60000)
@@ -68,6 +64,15 @@ def ecis_dashboard_page():
         view_vmr_page = EcisViewVmrPage(page)
         oder_maintenance_page = EcisOrderMaintenancePage(page)
         ecis_consignment_page = EcisConsignmentPage(page)
-        yield dashboard_page, ecis_welcome_page, create_vmr_page, view_vmr_page, oder_maintenance_page, ecis_consignment_page
-        # ikea_login_page.logout_ecis()
+        ecis_order_report_page = EcisOrderMaintenanceReportPage(page)
+        yield (
+            ecis_welcome_page,
+            dashboard_page,
+            create_vmr_page,
+            view_vmr_page,
+            oder_maintenance_page,
+            ecis_consignment_page,
+            ecis_order_report_page,
+        )
+        ikea_login_page.logout_ecis()
         browser.close()

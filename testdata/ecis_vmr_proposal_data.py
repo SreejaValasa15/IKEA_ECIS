@@ -1,7 +1,6 @@
-TEST_VMR_VIEW_FLOW ={
-    "database": "Production",
+TEST_VMR_VIEW_FLOW =[{
     "supplier": "23231",
-}
+}]
 
 TEST_VERIFY_COPY_CLIP_AND_COPIED_FILE_EXPORT = {
     "database": "Production",
@@ -10,52 +9,47 @@ TEST_VERIFY_COPY_CLIP_AND_COPIED_FILE_EXPORT = {
     "order_no": "232310000001"
 }
 
-TEST_DATA_CREATE_ORDER_PER_PALLET = {
-    "database": "Production",
-    "supplier": "23231",
+TEST_DATA_CREATE_ORDER_PER_PALLET = [{
+    "supplier": "17133",
     "quantity": "50",
-}
+}]
 
-TEST_ECIS_CREATE_ORDER_TOTAL_PALLET = {
-    "database": "Production",
-    "supplier": "23231",
+TEST_ECIS_CREATE_ORDER_TOTAL_PALLET = [{
+    "supplier": "17133",
     "quantity": "50",
-}
+}]
 
-TEST_ECIS_VIEW_VMR_PROPOSAL_COLUMNS = {
-    "database": "Production",
+TEST_ECIS_VMR_PROPOSAL_SEARCH = [{
     "supplier": "23231",
-}
+}]
 
-TEST_FIND_AND_CLEAR = {
-    "database": "Production",
+TEST_ECIS_VIEW_VMR_PROPOSAL_COLUMNS = [{
     "supplier": "23231",
-}
+}]
 
-TEST_ECIS_VMR_UPLOAD = {
-    "database": "Production",
+TEST_FIND_AND_CLEAR = [{
     "supplier": "23231",
-}
+    "vmr_order_ref": "232310000007"
+}]
 
-TEST_VERIFY_EXPORT_FILE = {
-    "database": "Production",
-    "supplier": "23231",
-    "order_no": "232310000001",
-}
+TEST_ECIS_VMR_UPLOAD = [{
+    "supplier": "23231"
+}]
 
-TEST_ECIS_CREATE_VMR_DIFFERENT_RCV_ARTICLE_BULK_UPLOAD = {
-    "database": "Production",
-    "supplier": "23231",
-}
-
-TEST_VERIFY_ORDER_STATUS_SENT_PROPOSAL = {
-    "database": "Production",
+TEST_VERIFY_EXPORT_FILE = [{
     "supplier": "23231",
     "order_no": "232310000001",
-}
+}]
 
-TEST_VERIFY_RCV_COLUMNS ={
-    "database": "Production",
+TEST_ECIS_CREATE_VMR_DIFFERENT_RCV_ARTICLE_BULK_UPLOAD = [{
     "supplier": "23231",
-    "order_no": "232310000001",
-}
+}]
+
+TEST_VERIFY_ORDER_STATUS_SENT_PROPOSAL = [{
+    "supplier": "17133",
+    "order_no": "171330000004",
+}]
+TEST_VERIFY_RCV_COLUMNS =[{
+    "supplier": "17133",
+    "order_no": "171330000004",
+}]
