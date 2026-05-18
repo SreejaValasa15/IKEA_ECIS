@@ -18,5 +18,10 @@ ENV_CRED= {
         "url": "https://ecis-ofp.apps.ikeadt.com/OrderMaintenance/OrderMaintenance.aspx",
         "username":"wewan",
         "password":"ecisTestuserRet#2027"
+    },
+    "temp": {
+        "url": "https://ecispte1.ikeadt.com/",
+        "username": "wewan",
+        "password": "ecisTestuserRet#2027"
     }
 }
