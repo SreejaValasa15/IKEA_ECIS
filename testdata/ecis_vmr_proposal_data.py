@@ -3,7 +3,7 @@ TEST_VMR_VIEW_FLOW =[{
 }]
 
 TEST_VERIFY_COPY_CLIP_AND_COPIED_FILE_EXPORT = {
-    "database": "Production",
+
     "supplier": "23231",
     "quantity": "50",
     "order_no": "232310000001"
