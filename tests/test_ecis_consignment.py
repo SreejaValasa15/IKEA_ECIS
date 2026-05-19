@@ -1,28 +1,34 @@
+
 import allure
 import pytest
-from testdata.ecis_consignment_data import (TEST_INCOTERM_CONSIGNMENT)
-from testdata.ecis_consignment_data import (TEST_CREATE_CONSIGNMENT_DISPATCH)
-from testdata.ecis_consignment_data import (TEST_SHIP_WITH_GRPOUP)
+from testdata.ecis_consignment_data import TEST_CREATE_CONSIGNMENT_DISPATCH
+from testdata.ecis_consignment_data import TEST_SHIP_WITH_GRPOUP
 from testdata.ecis_consignment_data import TEST_DISPATCH_TO_INVOICE
 from testdata.ecis_consignment_data import TEST_CREATE_AND_DELETE_CONSIGNMENT
-from pages.ecis_consignment_page import EcisConsignmentPage
+from testdata.ecis_consignment_data import TEST_UPLOAD_VALID_SSCC
+from testdata.ecis_consignment_data import TEST_SHOW_DWP_DATA
+from testdata.ecis_consignment_data import TEST_SELECT_DIFF_INCOTERM_CONSIGNMENT
+from testdata.ecis_consignment_data import TEST_ECIS_CREATE_CONSIGNMENT
+from testdata.ecis_consignment_data import TEST_ECIS_BOOK_TRIP_CONSIGNMENT
+from testdata.ecis_consignment_data import TEST_ECIS_DISPATCH_CONSIGNMENT
+from testdata.ecis_consignment_data import TEST_ECIS_SHIPWITHGROUP_CONSIGNMENT
+from testdata.ecis_consignment_data import TEST_ECIS_SWG_GRID_REFRESH
+
 @allure.feature("Consignment")
 @allure.story("Validate successful SSCC upload")
-@pytest.mark.flaky(reruns=0, reruns_delay=5)
-def test_upload_valid_sscc(ecis_dashboard_page):
-
+@pytest.mark.parametrize("test_data", TEST_UPLOAD_VALID_SSCC)
+def test_upload_valid_sscc(ecis_dashboard_page,test_data):
     (
         dashboard_page,
         ecis_welcome_page,
         *_,
         ecis_consignment_page,
+        ecis_order_report_page,
     ) = ecis_dashboard_page
 
-    data=TEST_SHIP_WITH_GRPOUP
 
     with allure.step("Select supplier and database"):
-        ecis_welcome_page.select_database(data["database"])
-        ecis_welcome_page.select_supplier(data["scode"])
+        ecis_welcome_page.select_supplier(test_data["scode"])
         ecis_welcome_page.click_continue()
 
     with allure.step("Navigate to Dashboard"):
@@ -47,28 +53,27 @@ def test_upload_valid_sscc(ecis_dashboard_page):
         ecis_consignment_page.browse_and_upload_valid_sscc(popup_page)
 
 @allure.story("Validate DWP values for selected order line")
-@pytest.mark.flaky(reruns=0, reruns_delay=2)
-def test_show_dwp_data(ecis_dashboard_page):
+@pytest.mark.parametrize("test_data", TEST_SHOW_DWP_DATA)
+def test_show_dwp_data(ecis_dashboard_page,test_data):
 
     (
         dashboard_page,
         ecis_welcome_page,
         *_,
         ecis_consignment_page,
+        ecis_order_report_page,
     ) = ecis_dashboard_page
-    data= TEST_SHIP_WITH_GRPOUP
 
     with allure.step("Select supplier and database"):
-        ecis_welcome_page.select_database(data["database"])
-        ecis_welcome_page.select_supplier(data["scode"])
+        ecis_welcome_page.select_supplier(test_data["scode"])
         ecis_welcome_page.click_continue()
 
     with allure.step("Navigate to Consignment"):
         dashboard_page.dashboard_page()
         dashboard_page.click_maintenance()
-        ecis_consignment_page.navigate_to_consignment()
 
     with allure.step("Select Created Consignment"):
+        ecis_consignment_page.navigate_to_consignment()
         ecis_consignment_page.select_created_consignment()
 
     with allure.step("Click View"):
@@ -85,19 +90,18 @@ def test_show_dwp_data(ecis_dashboard_page):
 
 
 @allure.story("Validate Terms mismatch when selecting different Incoterm")
-@pytest.mark.flaky(reruns=2, reruns_delay=5)
-def test_select_diff_incoterm_consignment(ecis_dashboard_page):
+@pytest.mark.parametrize("data", TEST_SELECT_DIFF_INCOTERM_CONSIGNMENT)
+def test_select_diff_incoterm_consignment(ecis_dashboard_page,data):
     (
         dashboard_page,
         ecis_welcome_page,
         *_,
         ecis_consignment_page,
+        ecis_order_report_page
     ) = ecis_dashboard_page
 
-    data = TEST_INCOTERM_CONSIGNMENT
 
     with allure.step("Select supplier and database"):
-        ecis_welcome_page.select_database(data["database"])
         ecis_welcome_page.select_supplier(data["scode"])
         ecis_welcome_page.click_continue()
 
@@ -128,18 +132,18 @@ def test_select_diff_incoterm_consignment(ecis_dashboard_page):
 
 
 @allure.story("Creation of Consignment from Created to Dispatch")
-def test_ecis_create_consignment(ecis_dashboard_page):
+@pytest.mark.parametrize("data", TEST_ECIS_CREATE_CONSIGNMENT)
+def test_ecis_create_consignment(ecis_dashboard_page,data):
     (
         dashboard_page,
         ecis_welcome_page,
         *_,
         ecis_consignment_page,
+        ecis_order_report_page,
+
     ) = ecis_dashboard_page
 
-    data = TEST_CREATE_CONSIGNMENT_DISPATCH
-
     with allure.step(f"Select supplier and database"):
-        ecis_welcome_page.select_database(data["database"])
         ecis_welcome_page.select_supplier(data["scode"])
         ecis_welcome_page.click_continue()
 
@@ -160,18 +164,18 @@ def test_ecis_create_consignment(ecis_dashboard_page):
         ecis_consignment_page.click_create_new_consignment()
 
 @allure.story("Creation of Consignment from Created to Tripbook")
-def test_ecis_book_trip_consignment(ecis_dashboard_page):
+@pytest.mark.parametrize("data", TEST_ECIS_BOOK_TRIP_CONSIGNMENT)
+def test_ecis_book_trip_consignment(ecis_dashboard_page,data):
     (
         dashboard_page,
         ecis_welcome_page,
         *_,
         ecis_consignment_page,
+        ecis_order_report_page,
     ) = ecis_dashboard_page
 
-    data = TEST_CREATE_CONSIGNMENT_DISPATCH
 
     with allure.step(f"Select supplier and database"):
-        ecis_welcome_page.select_database(data["database"])
         ecis_welcome_page.select_supplier(data["scode"])
         ecis_welcome_page.click_continue()
 
@@ -189,18 +193,17 @@ def test_ecis_book_trip_consignment(ecis_dashboard_page):
         ecis_consignment_page.view_consignment_details_book_trip()
 
 @allure.story("Creation of Consignment from Created to Dispatch")
-def test_ecis_dispatch_consignment(ecis_dashboard_page):
+@pytest.mark.parametrize("data", TEST_ECIS_DISPATCH_CONSIGNMENT)
+def test_ecis_dispatch_consignment(ecis_dashboard_page,data):
     (
         dashboard_page,
         ecis_welcome_page,
         *_,
         ecis_consignment_page,
+        ecis_order_report_page,
     ) = ecis_dashboard_page
 
-    data = TEST_CREATE_CONSIGNMENT_DISPATCH
-
     with allure.step(f"Select supplier and database"):
-        ecis_welcome_page.select_database(data["database"])
         ecis_welcome_page.select_supplier(data["scode"])
         ecis_welcome_page.click_continue()
 
@@ -218,18 +221,17 @@ def test_ecis_dispatch_consignment(ecis_dashboard_page):
         ecis_consignment_page.view_consignment_details_dispatch()
 
 @allure.story("Creation of Consignment  with  ShipWithGroup ")
-def test_ecis_shipwithgroup_consignment(ecis_dashboard_page):
+@pytest.mark.parametrize("data",TEST_ECIS_SHIPWITHGROUP_CONSIGNMENT)
+def test_ecis_shipwithgroup_consignment(ecis_dashboard_page,data):
     (
         dashboard_page,
         ecis_welcome_page,
         *_,
         ecis_consignment_page,
+        ecis_order_report_page,
     ) = ecis_dashboard_page
 
-    data = TEST_CREATE_CONSIGNMENT_DISPATCH
-
     with allure.step(f"Select supplier and database"):
-        ecis_welcome_page.select_database(data["database"])
         ecis_welcome_page.select_supplier(data["scode"])
         ecis_welcome_page.click_continue()
 
@@ -253,18 +255,17 @@ def test_ecis_shipwithgroup_consignment(ecis_dashboard_page):
         ecis_consignment_page.select_consignment_to_ship_with_group(data["rvc_code"])
 
 @allure.story("Verify that the data in the SWG grid is refreshed after the modification of consignment")
-def test_ecis_swg_grid_refresh(ecis_dashboard_page):
+@pytest.mark.parametrize("data", TEST_ECIS_SWG_GRID_REFRESH)
+def test_ecis_swg_grid_refresh(ecis_dashboard_page,data):
     (
         dashboard_page,
         ecis_welcome_page,
         *_,
         ecis_consignment_page,
+        ecis_order_report_page,
     ) = ecis_dashboard_page
 
-    data = TEST_CREATE_CONSIGNMENT_DISPATCH
-
     with allure.step(f"Select supplier and database"):
-        ecis_welcome_page.select_database(data["database"])
         ecis_welcome_page.select_supplier(data["scode"])
         ecis_welcome_page.click_continue()
 
@@ -295,10 +296,9 @@ def test_dispatch_to_invoice(ecis_dashboard_page, test_data):
         ecis_welcome_page,
         *_,
         ecis_consignment_page,
+        ecis_order_report_page,
     ) = ecis_dashboard_page
-    # data = TEST_DISPATCH_TO_INVOICE
     with allure.step(f"Select supplier and database"):
-        ecis_welcome_page.select_database(test_data["database"])
         ecis_welcome_page.select_supplier(test_data["scode"])
         ecis_welcome_page.click_continue()
 
@@ -309,20 +309,16 @@ def test_dispatch_to_invoice(ecis_dashboard_page, test_data):
     with allure.step("click on Consignment menu"):
         ecis_consignment_page.click_consignments_link()
 
-    # Select dispatch using test data
     with allure.step("Select dispatch using test data"):
         ecis_consignment_page.select_dispatch_and_check(test_data["dispatch_id"])
 
-    # Open invoice popup
     with allure.step("Open invoice popup"):
         popup_page = ecis_consignment_page.open_invoice_popup()
 
-    # Create invoice with today's date
     with allure.step("Create invoice with today's date"):
         ecis_consignment_page.create_invoice(popup_page, test_data["dispatch_id"])
         popup_page.close()
 
-    # Validate same dispatch ID in Invoice tab
     with allure.step("Validate same dispatch ID in Invoice tab"):
         ecis_consignment_page.validate_invoice_dispatch(test_data["dispatch_id"])
 
@@ -335,10 +331,10 @@ def test_create_and_delete_consignment(ecis_dashboard_page,data):
         ecis_welcome_page,
         *_,
         ecis_consignment_page,
+        ecis_order_report_page,
     ) = ecis_dashboard_page
 
     with allure.step(f"Select supplier and database"):
-        ecis_welcome_page.select_database(data["database"])
         ecis_welcome_page.select_supplier(data["scode"])
         ecis_welcome_page.click_continue()
     with allure.step("Navigating to consignment page"):
