@@ -2,4 +2,5 @@ pytest
 playwright
 allure-pytest
 openpyxl
+pytest_playwright
 
