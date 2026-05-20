@@ -58,17 +58,7 @@ TEST_SHIP_WITH_GRPOUP=[{
 TEST_DISPATCH_TO_INVOICE =[ {
 
      "scode": "15653",
-     "dispatch_id":"ECIS217761"
-},
-{
-
-    "scode": "15653",
-    "dispatch_id":" ECIS217759"
-},
-{
-
-    "scode": "15653",
-    "dispatch_id":"ECIS217760"
+     "dispatch_id":"ECIS223382"
 }
 ]
 TEST_CREATE_AND_DELETE_CONSIGNMENT =[

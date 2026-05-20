@@ -14,13 +14,12 @@ from testdata.ecis_order_maintenance_data import(TEST_VALIDATE_CANCELLED_ORDER)
 @pytest.mark.parametrize("test_data",TEST_ORDER_MAINTENANCE_CANCELLATIONS)
 def test_ecis_order_maintenance_cancellations(ecis_dashboard_page,test_data):
     (
-        dashboard_page,
         ecis_welcome_page,
+        dashboard_page,
         create_vmr_page,
         view_vmr_page,
         order_maintenance_page,
         *_,
-
     ) = ecis_dashboard_page
     with allure.step(f"Select supplier and database"):
         ecis_welcome_page.select_supplier(test_data["scode"])
@@ -55,8 +54,6 @@ def test_ecis_order_maintenance_cancellations(ecis_dashboard_page,test_data):
     with allure.step("click on confirm button"):
         order_maintenance_page.click_confirm_button()
 
-    with allure.step("change supplier"):
-        order_maintenance_page.change_supplier()
 
 
 @allure.story(
@@ -64,8 +61,8 @@ def test_ecis_order_maintenance_cancellations(ecis_dashboard_page,test_data):
 @pytest.mark.parametrize("test_data",TEST_ORDER_MAINTENANCE_MOVE)
 def test_ecis_order_maintenance_move(ecis_dashboard_page,test_data):
     (
-        dashboard_page,
         ecis_welcome_page,
+        dashboard_page,
         create_vmr_page,
         view_vmr_page,
         order_maintenance_page,
@@ -100,17 +97,14 @@ def test_ecis_order_maintenance_move(ecis_dashboard_page,test_data):
     with allure.step("Order will be move to new date with status pending"):
         order_maintenance_page.verify_pending_status(test_data["onumber"])
 
-    with allure.step("change supplier"):
-        order_maintenance_page.change_supplier()
-
 
 @allure.story(
     "Verify that the reason code must not be mandatory(optional) for supplier-initiated PO confirmation updates (DWP key)  (excl. DDC order types) ")
 @pytest.mark.parametrize("test_data",TEST_ORDER_MAINTENANCE_DWP_KEY)
 def test_ecis_order_maintenance_dwp_key(ecis_dashboard_page,test_data):
     (
-        dashboard_page,
         ecis_welcome_page,
+        dashboard_page,
         create_vmr_page,
         view_vmr_page,
         order_maintenance_page,
@@ -143,12 +137,12 @@ def test_ecis_order_maintenance_dwp_key(ecis_dashboard_page,test_data):
         order_maintenance_page.click_change_button()
 
 
-@allure.story("Blocked Order due to Deletion Indicator")
+@allure.story("Verify, To block purchase order update(confirm, reconfirm, Move or cancel) of the order line in Order Maintenance screen")
 @pytest.mark.parametrize("test_data",TEST_BLOCKED_ORDER_POPUP)
 def test_blocked_order_popup_handling(ecis_dashboard_page,test_data):
     (
-        dashboard_page,
         ecis_welcome_page,
+        dashboard_page,
         create_vmr_page,
         view_vmr_page,
         order_maintenance_page,
@@ -177,12 +171,12 @@ def test_blocked_order_popup_handling(ecis_dashboard_page,test_data):
         order_maintenance_page.click_change_and_validate_popup()
 
 
-@allure.story("Validate cancelled orders status")
+@allure.story("Verify, the order line in Order Maintenance screen, which has the DELETE_FLAG as 'L'")
 @pytest.mark.parametrize("test_data",TEST_VALIDATE_CANCELLED_ORDER)
 def test_validate_cancelled_order_status(ecis_dashboard_page,test_data):
     (
-        dashboard_page,
         ecis_welcome_page,
+        dashboard_page,
         create_vmr_page,
         view_vmr_page,
         order_maintenance_page,
@@ -211,8 +205,14 @@ def test_validate_cancelled_order_status(ecis_dashboard_page,test_data):
 @allure.story("Verify the export file button is working")
 @pytest.mark.parametrize("test_data",TEST_VERIFY_EXPORT_FILE_DATA)
 def test_verify_export_file(ecis_dashboard_page,test_data):
-    (dashboard_page,
-     ecis_welcome_page, create_vmr_page, view_vmr_page, order_maintenance_page, *_,)= ecis_dashboard_page
+    (
+        ecis_welcome_page,
+        dashboard_page,
+        create_vmr_page,
+        view_vmr_page,
+        order_maintenance_page,
+        *_,
+    ) = ecis_dashboard_page
     with allure.step(f"Select supplier and database"):
         ecis_welcome_page.select_supplier(test_data["scode"])
         ecis_welcome_page.click_continue()
@@ -234,11 +234,17 @@ def test_verify_export_file(ecis_dashboard_page,test_data):
         order_maintenance_page.verify_export_order_maintenance_file()
 
 
-@allure.story("Verify CopyClip button is working")
+@allure.story("Verify the Copyclip button is working with this new column.")
 @pytest.mark.parametrize("test_data",TEST_VERIFY_COPY_CLIP_DATA)
 def test_verify_copyclip(ecis_dashboard_page,test_data):
     (
-        dashboard_page, ecis_welcome_page, create_vmr_page, view_vmr_page, order_maintenance_page, *_,) = ecis_dashboard_page
+        ecis_welcome_page,
+        dashboard_page,
+        create_vmr_page,
+        view_vmr_page,
+        order_maintenance_page,
+        *_,
+    ) = ecis_dashboard_page
     with allure.step(f"Select supplier and database"):
         ecis_welcome_page.select_supplier(test_data["scode"])
         ecis_welcome_page.click_continue()

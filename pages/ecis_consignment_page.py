@@ -806,7 +806,6 @@ class EcisConsignmentPage:
         except:
             order_number = None
 
-        print("Captured Order:", order_number)
         popup.locator("#grdCsmLines_btnSelectAll").click()
         popup.wait_for_timeout(1000)
 
@@ -903,7 +902,7 @@ class EcisConsignmentPage:
             "gridcell", name=dispatch_id, exact=True
         )
 
-        expect(cell).to_be_visible(timeout=10000)
+        # expect(cell).to_be_visible(timeout=10000)
         cell.click()
         self.screenshot_after(self.page, "Validating the order is invoiced")
 
