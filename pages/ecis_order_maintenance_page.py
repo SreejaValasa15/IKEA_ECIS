@@ -142,38 +142,62 @@ class EcisOrderMaintenancePage:
     def click_change_button(self):
         with self.page.expect_popup() as popup_info:
             self.change_button.click()
+
         popup = popup_info.value
+
         # Validate popup URL
         expect(popup).to_have_url(
             "https://ecis-ofp.apps.ikeadt.com/OrderMaintenance/OrderMaintenanceChange.aspx"
         )
+
+        # Select first row checkbox
         row_grid = popup.locator("#grdOrderConfirm tbody tr").nth(0)
         checkbox = row_grid.locator("td").first.locator("input")
         checkbox.check()
 
+        # Fill date
         plan_date = popup.locator("#newDate")
         today = datetime.today().strftime("%d-%m-%Y")
         plan_date.fill(today)
-        popup.wait_for_timeout(2000)
 
+        # Click show change
         popup.locator("#btnShowChange").click()
 
+        # Validate text
         expect(popup.locator("#divCapType")).to_have_text("Show DWP")
 
+        # DWP selection
         actual_dwp = popup.locator("#mltsel_ddlDwpValidFrom")
-        actual_dwp.click()
         row_dwp_grid = popup.locator("#tblCombo_ddlDwpValidFrom tbody tr")
-        row_dwp_count = row_dwp_grid.count()
-        print(f"Total rows found: {row_dwp_count}")
-        for i in range(row_dwp_count):
-            row_dwp_grid.nth(i).click()
-            popup.wait_for_timeout(2000)
+        change_dwp_btn = popup.locator("#divbtndwpsave")
 
-            change_dwp_btn = popup.locator("#divbtndwpsave")
+        row_count = row_dwp_grid.count()
+        print(f"Total rows found: {row_count}")
+
+        for i in range(row_count):
+            # Open dropdown
+            actual_dwp.click()
+
+            # Wait for rows
+            row_dwp_grid.first.wait_for(state="visible")
+
+            # Select option
+            option = row_dwp_grid.nth(i)
+            option_text = option.text_content()
+            print(f"Trying option {i}: {option_text}")
+
+            option.click()
+
+            # Wait for UI update
+            popup.wait_for_load_state("networkidle")
+
+            # Check if button is enabled
             if change_dwp_btn.is_enabled():
-                change_dwp_btn.click()
+                print(f"Button enabled for option: {option_text}")
+                change_dwp_btn.click(force=True)
                 break
-
+            else:
+                print(f"Button NOT enabled for option: {option_text}, trying next...")
     def click_cancel_button(self):
         with self.page.expect_popup() as popup_info:
             self.cancel_button.click()
@@ -183,9 +207,10 @@ class EcisOrderMaintenancePage:
         expect(popup).to_have_url(
             "https://ecis-ofp.apps.ikeadt.com/OrderMaintenance/OrderMaintenanceCancel.aspx"
         )
+        popup.wait_for_load_state("load")
         # Select all
         select_all_btn = popup.locator("#grdOrderConfirm_btnSelectAll")
-        expect(select_all_btn).to_be_visible(timeout=10_000)
+        self.page.wait_for_timeout(2000)
         select_all_btn.click()
 
         cancel_btn = popup.locator("#btnCancel")

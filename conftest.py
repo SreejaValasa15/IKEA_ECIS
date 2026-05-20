@@ -19,7 +19,9 @@ from pages.ecis_order_maintenance_report_page import EcisOrderMaintenanceReportP
 def ecis_dashboard_page():
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=False)
-        context = browser.new_context()
+        context = browser.new_context(
+            permissions=["clipboard-read", "clipboard-write"]
+        )
         page = context.new_page()
 
         # ---------- Step 1: Open URL ----------

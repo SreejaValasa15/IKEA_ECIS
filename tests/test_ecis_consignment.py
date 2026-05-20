@@ -19,13 +19,14 @@ from testdata.ecis_consignment_data import TEST_ECIS_SWG_GRID_REFRESH
 @pytest.mark.parametrize("test_data", TEST_UPLOAD_VALID_SSCC)
 def test_upload_valid_sscc(ecis_dashboard_page,test_data):
     (
-        dashboard_page,
         ecis_welcome_page,
-        *_,
+        dashboard_page,
+        create_vmr_page,
+        view_vmr_page,
+        oder_maintenance_page,
         ecis_consignment_page,
-        ecis_order_report_page,
+        *_
     ) = ecis_dashboard_page
-
 
     with allure.step("Select supplier and database"):
         ecis_welcome_page.select_supplier(test_data["scode"])
@@ -55,13 +56,14 @@ def test_upload_valid_sscc(ecis_dashboard_page,test_data):
 @allure.story("Validate DWP values for selected order line")
 @pytest.mark.parametrize("test_data", TEST_SHOW_DWP_DATA)
 def test_show_dwp_data(ecis_dashboard_page,test_data):
-
     (
-        dashboard_page,
         ecis_welcome_page,
-        *_,
+        dashboard_page,
+        create_vmr_page,
+        view_vmr_page,
+        order_maintenance_page,
         ecis_consignment_page,
-        ecis_order_report_page,
+        *_,
     ) = ecis_dashboard_page
 
     with allure.step("Select supplier and database"):
@@ -93,11 +95,13 @@ def test_show_dwp_data(ecis_dashboard_page,test_data):
 @pytest.mark.parametrize("data", TEST_SELECT_DIFF_INCOTERM_CONSIGNMENT)
 def test_select_diff_incoterm_consignment(ecis_dashboard_page,data):
     (
-        dashboard_page,
         ecis_welcome_page,
-        *_,
+        dashboard_page,
+        create_vmr_page,
+        view_vmr_page,
+        order_maintenance_page,
         ecis_consignment_page,
-        ecis_order_report_page
+        *_,
     ) = ecis_dashboard_page
 
 
@@ -135,12 +139,13 @@ def test_select_diff_incoterm_consignment(ecis_dashboard_page,data):
 @pytest.mark.parametrize("data", TEST_ECIS_CREATE_CONSIGNMENT)
 def test_ecis_create_consignment(ecis_dashboard_page,data):
     (
-        dashboard_page,
         ecis_welcome_page,
-        *_,
+        dashboard_page,
+        create_vmr_page,
+        view_vmr_page,
+        order_maintenance_page,
         ecis_consignment_page,
-        ecis_order_report_page,
-
+        *_,
     ) = ecis_dashboard_page
 
     with allure.step(f"Select supplier and database"):
@@ -167,11 +172,13 @@ def test_ecis_create_consignment(ecis_dashboard_page,data):
 @pytest.mark.parametrize("data", TEST_ECIS_BOOK_TRIP_CONSIGNMENT)
 def test_ecis_book_trip_consignment(ecis_dashboard_page,data):
     (
-        dashboard_page,
         ecis_welcome_page,
-        *_,
+        dashboard_page,
+        create_vmr_page,
+        view_vmr_page,
+        order_maintenance_page,
         ecis_consignment_page,
-        ecis_order_report_page,
+        *_,
     ) = ecis_dashboard_page
 
 
@@ -196,11 +203,14 @@ def test_ecis_book_trip_consignment(ecis_dashboard_page,data):
 @pytest.mark.parametrize("data", TEST_ECIS_DISPATCH_CONSIGNMENT)
 def test_ecis_dispatch_consignment(ecis_dashboard_page,data):
     (
-        dashboard_page,
         ecis_welcome_page,
-        *_,
+        dashboard_page,
+        create_vmr_page,
+        view_vmr_page,
+        order_maintenance_page,
         ecis_consignment_page,
-        ecis_order_report_page,
+        *_,
+
     ) = ecis_dashboard_page
 
     with allure.step(f"Select supplier and database"):
@@ -214,6 +224,11 @@ def test_ecis_dispatch_consignment(ecis_dashboard_page,data):
     with allure.step("click on Consignment menu"):
         ecis_consignment_page.click_consignments_link()
 
+    with allure.step("select the consignment to book trip"):
+        ecis_consignment_page.select_consignment_to_book_trip(data["rvc_code"])
+
+    with allure.step("click on view consignment details and Book Trip"):
+        ecis_consignment_page.view_consignment_details_book_trip()
     with allure.step("select the consignment to dispatch"):
         ecis_consignment_page.select_consignment_to_dispatch(data["rvc_code"])
 
@@ -224,11 +239,14 @@ def test_ecis_dispatch_consignment(ecis_dashboard_page,data):
 @pytest.mark.parametrize("data",TEST_ECIS_SHIPWITHGROUP_CONSIGNMENT)
 def test_ecis_shipwithgroup_consignment(ecis_dashboard_page,data):
     (
-        dashboard_page,
         ecis_welcome_page,
-        *_,
+        dashboard_page,
+        create_vmr_page,
+        view_vmr_page,
+        order_maintenance_page,
         ecis_consignment_page,
-        ecis_order_report_page,
+        *_,
+
     ) = ecis_dashboard_page
 
     with allure.step(f"Select supplier and database"):
@@ -258,11 +276,14 @@ def test_ecis_shipwithgroup_consignment(ecis_dashboard_page,data):
 @pytest.mark.parametrize("data", TEST_ECIS_SWG_GRID_REFRESH)
 def test_ecis_swg_grid_refresh(ecis_dashboard_page,data):
     (
-        dashboard_page,
         ecis_welcome_page,
-        *_,
+        dashboard_page,
+        create_vmr_page,
+        view_vmr_page,
+        order_maintenance_page,
         ecis_consignment_page,
-        ecis_order_report_page,
+        *_,
+
     ) = ecis_dashboard_page
 
     with allure.step(f"Select supplier and database"):
@@ -292,11 +313,14 @@ def test_ecis_swg_grid_refresh(ecis_dashboard_page,data):
 @pytest.mark.parametrize("test_data", TEST_DISPATCH_TO_INVOICE)
 def test_dispatch_to_invoice(ecis_dashboard_page, test_data):
     (
-        dashboard_page,
         ecis_welcome_page,
-        *_,
+        dashboard_page,
+        create_vmr_page,
+        view_vmr_page,
+        order_maintenance_page,
         ecis_consignment_page,
-        ecis_order_report_page,
+        *_,
+
     ) = ecis_dashboard_page
     with allure.step(f"Select supplier and database"):
         ecis_welcome_page.select_supplier(test_data["scode"])
@@ -327,11 +351,14 @@ def test_dispatch_to_invoice(ecis_dashboard_page, test_data):
 @pytest.mark.parametrize("data", TEST_CREATE_AND_DELETE_CONSIGNMENT)
 def test_create_and_delete_consignment(ecis_dashboard_page,data):
     (
-        dashboard_page,
         ecis_welcome_page,
-        *_,
+        dashboard_page,
+        create_vmr_page,
+        view_vmr_page,
+        order_maintenance_page,
         ecis_consignment_page,
-        ecis_order_report_page,
+        *_,
+
     ) = ecis_dashboard_page
 
     with allure.step(f"Select supplier and database"):
