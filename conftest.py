@@ -14,11 +14,12 @@ from pages.ecis_view_vmr_page import EcisViewVmrPage
 from pages.ecis_order_maintenance_page import EcisOrderMaintenancePage
 from pages.ecis_consignment_page import EcisConsignmentPage
 from pages.ecis_order_maintenance_report_page import EcisOrderMaintenanceReportPage
+from pages.ecis_consignment_report_page import EcisConsignmentReportPage
 
 @pytest.fixture(scope="function")
 def ecis_dashboard_page():
     with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(headless=False)
+        browser = playwright.chromium.launch(headless=False,slow_mo=800)
         context = browser.new_context(
             permissions=["clipboard-read", "clipboard-write"]
         )
@@ -67,14 +68,17 @@ def ecis_dashboard_page():
         oder_maintenance_page = EcisOrderMaintenancePage(page)
         ecis_consignment_page = EcisConsignmentPage(page)
         ecis_order_report_page = EcisOrderMaintenanceReportPage(page)
+        consignment_report_page=EcisConsignmentReportPage(page)
         yield (
-            ecis_welcome_page,
             dashboard_page,
+            ecis_welcome_page,
             create_vmr_page,
             view_vmr_page,
             oder_maintenance_page,
             ecis_consignment_page,
             ecis_order_report_page,
+            consignment_report_page
         )
+
         ikea_login_page.logout_ecis()
         browser.close()
