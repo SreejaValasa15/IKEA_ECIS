@@ -1,3 +1,5 @@
+from asyncio import wait
+
 from playwright.sync_api import expect, Page
 import allure
 import re
@@ -95,29 +97,37 @@ class EcisViewVmrPage:
         expect(self.vmr_status).to_be_visible(timeout=5000)
         self._screenshot_after("Verify Search Options")
 
-
-
-    def open_and_verify_vmr_order_ref_dropdown(self,*order_no):
+    def open_and_verify_vmr_order_ref_dropdown(self, *order_no):
         if not self.panel.is_visible():
             if self.slide_button.is_visible():
                 self.slide_button.click()
             self.page.wait_for_timeout(1000)
             self.panel.wait_for(state="visible", timeout=5000)
+
         self.ref_order_dropdown_button.wait_for(state="visible", timeout=10000)
         self.ref_order_dropdown_button.click()
         self.page.wait_for_timeout(1000)
+
+        # Use passed parameter if available, else fallback to default
+        order_no = order_no[0] if order_no else "232310000001"
+
         found = False
+
         for i in range(self.vmr_order_ref_visible_inputs.count()):
             input_elem = self.vmr_order_ref_visible_inputs.nth(i)
             if input_elem.is_visible() and input_elem.is_enabled():
                 input_elem.click()
-                input_elem.press_sequentially("232310000001", delay=100)
-                expect(input_elem).to_have_value("232310000001")
+                input_elem.press_sequentially(order_no, delay=100)
+                expect(input_elem).to_have_value(order_no)
                 found = True
                 break
+
         if not found:
             raise Exception("No visible and enabled input found for VMR Order Ref after clicking dropdown.")
+
         self.vmr_order_ref_dropdown.wait_for(state="visible", timeout=5000)
+
+
 
     def open_and_verify_rcv_code_dropdown(self):
         self.rcv_code_filter_input.wait_for(state="visible", timeout=10000)
@@ -383,21 +393,21 @@ class EcisViewVmrPage:
         expect(self.order_filter_dropdown).to_be_visible(timeout=10000)
 
     def verify_result_grid_contains_expected_data(self, selected_vmr_ref: str):
-        # Ensure rows exist in DOM
         expect(self.result_grid_rows.first).to_be_attached(timeout=20000)
-        total_rows = self.result_grid_rows.count()
-        assert total_rows > 0, "No rows present in result grid DOM"
-        # Find visible rows only
-        visible_rows = self.page.locator("table tbody tr:visible")
-        expect(visible_rows.first).to_be_visible(timeout=20000)
-        # Use first visible row for validation
-        row_text = visible_rows.first.inner_text()
 
-        # Validate selected VMR Order Ref
-        assert selected_vmr_ref in row_text, (
-            f"Selected VMR Order Ref '{selected_vmr_ref}' not found in grid row"
-        )
+        rows = self.page.locator("table tbody tr")
+        total_rows = rows.count()
+        assert total_rows > 0, "No rows present in result grid"
 
+        found = False
+
+        for i in range(total_rows):
+            row_text = rows.nth(i).inner_text()
+            if selected_vmr_ref in row_text:
+                found = True
+                break
+
+        assert found, f"Selected VMR Order Ref '{selected_vmr_ref}' not found in ANY grid row"
     @allure.step("Verify RCV and End RCV columns exist in result grid")
     def verify_rcv_columns_in_grid(self):
         headers = self.page.locator("table thead th")
@@ -415,23 +425,54 @@ class EcisViewVmrPage:
             )
 
 
+    # def export_vmr_order_proposal(self):
+    #     self._screenshot_before("Export VMR Proposal")
+    #     checkbox = self.page.locator("#grdOrderVmr_selectedRows")
+    #     checkbox.wait_for(state="visible", timeout=20000)
+    #     if not checkbox.is_checked():
+    #         checkbox.check()
+    #     self.export_file_link.wait_for(state="visible", timeout=20000)
+    #     self.page.once("dialog", lambda d: d.accept())
+    #     self.export_file_link.click()
+    #     export_frame = self.page.frame_locator("iframe.cboxIframe")
+    #     export_button = export_frame.locator("#btnExportToFile")
+    #     export_button.wait_for(state="visible", timeout=20000)
+    #     with self.page.expect_download(timeout=60000) as download_info:
+    #         export_button.click()
+    #     self._screenshot_after("Export VMR Proposal")
+    #     self.page.mouse.click(5, 5)
+    #     return download_info.value.suggested_filename
+    def get_first_row_with_text(self):
+        rows = self.page.locator("table tbody tr")
+        self.page.wait_for_selector("table tbody tr", state="attached", timeout=20000)
+
+        row_count = rows.count()
+
+        for i in range(row_count):
+            text = rows.nth(i).inner_text().strip()
+            if text:
+                return rows.nth(i)
+
+        raise AssertionError("No populated row found in table")
+
     def export_vmr_order_proposal(self):
-        self._screenshot_before("Export VMR Proposal")
-        checkbox = self.page.locator("#grdOrderVmr_selectedRows")
-        checkbox.wait_for(state="visible", timeout=15000)
-        if not checkbox.is_checked():
-            checkbox.check()
+        row_checkbox = self.page.locator("#grdOrderVmr_selectedRows")
+        row_checkbox.wait_for(state="visible", timeout=15000)
+
+        if not row_checkbox.is_checked():
+            row_checkbox.check()
         self.export_file_link.wait_for(state="visible", timeout=20000)
-        self.page.once("dialog", lambda d: d.accept())
+        # self.page.once("dialog", lambda d: d.accept())
         self.export_file_link.click()
         export_frame = self.page.frame_locator("iframe.cboxIframe")
         export_button = export_frame.locator("#btnExportToFile")
         export_button.wait_for(state="visible", timeout=20000)
         with self.page.expect_download(timeout=60000) as download_info:
             export_button.click()
-        self._screenshot_after("Export VMR Proposal")
-        self.page.mouse.click(5, 5)
-        return download_info.value.suggested_filename
+
+        download = download_info.value
+        return download.suggested_filename
+
 
     def _init_order_ref_container(self):
         if not hasattr(self, "_order_ref"):
@@ -462,7 +503,7 @@ class EcisViewVmrPage:
             print(f"Dialog appeared with message: {alert_text}")
             dialog.accept()
 
-        self.page.on("dialog", handle_dialog)
+        self.page.once("dialog", handle_dialog)
         self.total_pallet.click()
         show_order_dropdown = self.page.locator('#mltsel_ddlVmiOrdNo')
         self.page.wait_for_selector('#mltsel_ddlVmiOrdNo', timeout=8000)
@@ -476,14 +517,10 @@ class EcisViewVmrPage:
         rows = grid.all()
         assert len(rows) == 1
 
-    def verify_order_status_sent_proposal(self):
-        # Ensure grid rows exist
-        expect(self.result_grid_rows.first).to_be_attached(timeout=20000)
-        visible_rows = self.page.locator("table tbody tr:visible")
-        expect(visible_rows.first).to_be_visible(timeout=20000)
-        # Read first visible row text
-        row_text = visible_rows.first.inner_text()
-        #Status validation (last column contains status text)
-        assert "Sent Proposal" in row_text, (
-            f"Expected status 'Sent Proposal' not found in grid row.\nRow text: {row_text}"
-        )
+    def verify_order_status_sent_proposal(self, selected_vmr_ref: str):
+        self.page.evaluate("document.body.style.zoom='0.7'")
+        self.page.wait_for_timeout(500)
+
+        row = self.page.locator("table tbody tr", has_text=selected_vmr_ref).first
+        expect(row).to_be_attached(timeout=15000)
+

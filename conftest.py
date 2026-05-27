@@ -65,7 +65,7 @@ def ecis_dashboard_page():
         dashboard_page = EcisDashboardPage(page)
         create_vmr_page = EcisCreateVmrPage(page)
         view_vmr_page = EcisViewVmrPage(page)
-        oder_maintenance_page = EcisOrderMaintenancePage(page)
+        order_maintenance_page = EcisOrderMaintenancePage(page)
         ecis_consignment_page = EcisConsignmentPage(page)
         ecis_order_report_page = EcisOrderMaintenanceReportPage(page)
         consignment_report_page=EcisConsignmentReportPage(page)
@@ -74,7 +74,7 @@ def ecis_dashboard_page():
             ecis_welcome_page,
             create_vmr_page,
             view_vmr_page,
-            oder_maintenance_page,
+            order_maintenance_page,
             ecis_consignment_page,
             ecis_order_report_page,
             consignment_report_page

@@ -41,8 +41,8 @@ class EcisCreateVmrPage:
         self.export_invalid_orders_button = page.locator("#btnExportToFile")
         # Excel test data path
         self.PROJECT_ROOT = Path(__file__).resolve().parents[1]
-        self.EXCEL_FILE_RCV = self.PROJECT_ROOT / "testdata" / "vmr_same_rcv14.xls"
-        self.EXCEL_FILE_PATH = self.PROJECT_ROOT / "testdata" / "vmr_diff_rcv1.xls"
+        self.EXCEL_FILE_RCV = self.PROJECT_ROOT / "testdata" / "vmr_same_rcv2.xls"
+        self.EXCEL_FILE_PATH = self.PROJECT_ROOT / "testdata" / "vmr_diff_rcv2.xls"
         # self.find_button = page.get_by_role("button", name="Find")
         self.export_file_link = page.get_by_role("link", name="Export File")
         self.result_grid_rows = page.locator("table tbody tr")

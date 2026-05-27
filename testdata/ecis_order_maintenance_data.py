@@ -1,7 +1,7 @@
 TEST_ORDER_MAINTENANCE_CANCELLATIONS = [{
          "scode": "23231",
          "otype": "ZNB",
-         "onumber": "7500000231"
+         "onumber": "7500000140"
 }
 ]
 
@@ -21,17 +21,17 @@ TEST_ORDER_MAINTENANCE_DWP_KEY=[
 
 
 TEST_BLOCKED_ORDER_POPUP=[{
-    "scode": "23231",
+    "scode": "23231"
 }]
 TEST_VALIDATE_CANCELLED_ORDER=[{
-    "scode": "23231",
+    "scode": "23231"
 
 }]
 
 TEST_VERIFY_EXPORT_FILE_DATA=[{
-    "scode": "23231",
+    "scode": "23231"
 }]
 
 TEST_VERIFY_COPY_CLIP_DATA=[{
-    "scode": "23231",
+    "scode": "23231"
 }]

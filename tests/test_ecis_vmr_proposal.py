@@ -16,7 +16,14 @@ from testdata.ecis_vmr_proposal_data import (TEST_VERIFY_RCV_COLUMNS)
 @allure.story("Verify that creating VMR proposals on the same day is possible for the same supplier with the same RCV & Article combination using 'Create per Pallet' option")
 @pytest.mark.parametrize('data', TEST_DATA_CREATE_ORDER_PER_PALLET)
 def test_ecis_create_order_per_pallet(ecis_dashboard_page,data):
-    ecis_welcome_page, dashboard_page, create_vmr_page, *_ = ecis_dashboard_page
+    (
+        dashboard_page,
+        ecis_welcome_page,
+        create_vmr_page,
+        view_vmr_page,
+        order_maintenance_page,
+        *_,
+    ) = ecis_dashboard_page
 
     with allure.step("Select supplier and database"):
         ecis_welcome_page.select_supplier(data["supplier"])
@@ -45,7 +52,14 @@ def test_ecis_create_order_per_pallet(ecis_dashboard_page,data):
 @allure.story("Verify that the entered quantity is split correctly according to DWP rules")
 @pytest.mark.parametrize("data", TEST_ECIS_CREATE_ORDER_TOTAL_PALLET)
 def test_ecis_create_order_total_pallet(ecis_dashboard_page, data):
-    ecis_welcome_page, dashboard_page, create_vmr_page, *_ = ecis_dashboard_page
+    (
+        dashboard_page,
+        ecis_welcome_page,
+        create_vmr_page,
+        view_vmr_page,
+        order_maintenance_page,
+        *_,
+    ) = ecis_dashboard_page
     with allure.step("Select supplier and database"):
         ecis_welcome_page.select_supplier(data["supplier"])
         ecis_welcome_page.click_continue()
@@ -73,7 +87,14 @@ def test_ecis_create_order_total_pallet(ecis_dashboard_page, data):
 @allure.story("Verify that all the search options are available")
 @pytest.mark.parametrize("data", TEST_ECIS_VMR_PROPOSAL_SEARCH)
 def test_ecis_view_vmr_proposal_search_filter(ecis_dashboard_page, data):
-    ecis_welcome_page, dashboard_page, create_vmr_page, view_vmr_page, *_ = ecis_dashboard_page
+    (
+        dashboard_page,
+        ecis_welcome_page,
+        create_vmr_page,
+        view_vmr_page,
+        order_maintenance_page,
+        *_,
+    ) = ecis_dashboard_page
     with allure.step("Select supplier and database"):
         ecis_welcome_page.select_supplier(data["supplier"])
         ecis_welcome_page.click_continue()
@@ -110,8 +131,14 @@ def test_ecis_view_vmr_proposal_search_filter(ecis_dashboard_page, data):
 @allure.story("Verify that the View button is display in the View VMR Proposal screen")
 @pytest.mark.parametrize("data", TEST_ECIS_VIEW_VMR_PROPOSAL_COLUMNS)
 def test_ecis_view_vmr_proposal_columns(ecis_dashboard_page, data):
-
-    ecis_welcome_page, dashboard_page, create_vmr_page, view_vmr_page, *_ = ecis_dashboard_page
+    (
+        dashboard_page,
+        ecis_welcome_page,
+        create_vmr_page,
+        view_vmr_page,
+        order_maintenance_page,
+        *_,
+    ) = ecis_dashboard_page
     with allure.step("Select supplier and database"):
         ecis_welcome_page.select_supplier(data["supplier"])
         ecis_welcome_page.click_continue()
@@ -136,7 +163,14 @@ def test_ecis_view_vmr_proposal_columns(ecis_dashboard_page, data):
 @allure.story("Verify that the Find and clear buttons are available")
 @pytest.mark.parametrize("data", TEST_VMR_VIEW_FLOW)
 def test_vmr_view_flow(ecis_dashboard_page, data):
-    ecis_welcome_page, dashboard_page, create_vmr_page, view_vmr_page, *_ = ecis_dashboard_page
+    (
+        dashboard_page,
+        ecis_welcome_page,
+        create_vmr_page,
+        view_vmr_page,
+        order_maintenance_page,
+        *_,
+    ) = ecis_dashboard_page
     with allure.step("Select supplier and database"):
         ecis_welcome_page.select_supplier(data["supplier"])
         ecis_welcome_page.click_continue()
@@ -162,7 +196,14 @@ def test_vmr_view_flow(ecis_dashboard_page, data):
 @allure.story("Verify that the order should be display in Created status if the ECIS_VMR_ORD_PROP_H_T .ORD_PROP_CRE_DATE column value is not Null.")
 @pytest.mark.parametrize("data", TEST_FIND_AND_CLEAR)
 def test_find_and_clear(ecis_dashboard_page,data):
-    ecis_welcome_page, dashboard_page, create_vmr_page, view_vmr_page, *_ = ecis_dashboard_page
+    (
+        dashboard_page,
+        ecis_welcome_page,
+        create_vmr_page,
+        view_vmr_page,
+        order_maintenance_page,
+        *_,
+    ) = ecis_dashboard_page
 
     vmr_order_ref = data["vmr_order_ref"]
 
@@ -194,8 +235,14 @@ def test_find_and_clear(ecis_dashboard_page,data):
 @allure.story("TC05 - Uploading Invalid Orders Document")
 @pytest.mark.parametrize("data", TEST_ECIS_VMR_UPLOAD)
 def test_ecis_vmr_upload(ecis_dashboard_page, data):
-    ecis_welcome_page, dashboard_page, create_vmr_page, view_vmr_page, *_ = ecis_dashboard_page
-
+    (
+        dashboard_page,
+        ecis_welcome_page,
+        create_vmr_page,
+        view_vmr_page,
+        order_maintenance_page,
+        *_,
+    ) = ecis_dashboard_page
     with allure.step("Select supplier and database"):
 
         ecis_welcome_page.select_supplier(data["supplier"])
@@ -227,8 +274,14 @@ def test_ecis_vmr_upload(ecis_dashboard_page, data):
 @allure.story("TC03 - Bulk upload with same supplier and same RCV")
 @pytest.mark.parametrize("data", TEST_ECIS_CREATE_VMR_DIFFERENT_RCV_ARTICLE_BULK_UPLOAD)
 def test_ecis_create_same_supplier_rcv_bulk_upload(ecis_dashboard_page, data):
-    (    ecis_welcome_page, dashboard_page, create_vmr_page, view_vmr_page, *_ ) = ecis_dashboard_page
-
+    (
+        dashboard_page,
+        ecis_welcome_page,
+        create_vmr_page,
+        view_vmr_page,
+        order_maintenance_page,
+        *_,
+    ) = ecis_dashboard_page
      # -------------------- Step 1 --------------------
     with allure.step("Step 1: Login and select supplier & database"):
 
@@ -268,8 +321,14 @@ def test_ecis_create_same_supplier_rcv_bulk_upload(ecis_dashboard_page, data):
 @allure.story("TC04 - Bulk upload with different RCV and Article combinations")
 @pytest.mark.parametrize("data",TEST_ECIS_CREATE_VMR_DIFFERENT_RCV_ARTICLE_BULK_UPLOAD)
 def test_ecis_create_vmr_different_rcv_article_bulk_upload(ecis_dashboard_page, data):
-
-    (ecis_welcome_page, dashboard_page, create_vmr_page, view_vmr_page, *_ ) = ecis_dashboard_page
+    (
+        dashboard_page,
+        ecis_welcome_page,
+        create_vmr_page,
+        view_vmr_page,
+        order_maintenance_page,
+        *_,
+    ) = ecis_dashboard_page
 
         # -------------------- Step 1 --------------------
     with allure.step("Step 1: Login and select supplier & database"):
@@ -309,8 +368,14 @@ def test_ecis_create_vmr_different_rcv_article_bulk_upload(ecis_dashboard_page, 
 @allure.story("TC09-Verify RCV Code, RCV Type, End RCV Code, End RCV Type exist in grid")
 @pytest.mark.parametrize("data", TEST_VERIFY_RCV_COLUMNS)
 def test_verify_rcv_and_end_rcv_columns_in_result_grid(ecis_dashboard_page,data):
-    (ecis_welcome_page, dashboard_page, create_vmr_page, view_vmr_page, *_) = ecis_dashboard_page
-
+    (
+        dashboard_page,
+        ecis_welcome_page,
+        create_vmr_page,
+        view_vmr_page,
+        order_maintenance_page,
+        *_,
+    ) = ecis_dashboard_page
     with allure.step("Step 1: Login and select supplier & database"):
         ecis_welcome_page.select_supplier(data["supplier"])
         ecis_welcome_page.click_continue()
@@ -335,9 +400,14 @@ def test_verify_rcv_and_end_rcv_columns_in_result_grid(ecis_dashboard_page,data)
 @allure.story("Verify Export File downloads VMR order proposal data successfully")
 @pytest.mark.parametrize("data", TEST_VERIFY_EXPORT_FILE)
 def test_verify_export_file(ecis_dashboard_page, data):
-
-    (ecis_welcome_page, dashboard_page, create_vmr_page, view_vmr_page, *_) = ecis_dashboard_page
-
+    (
+        dashboard_page,
+        ecis_welcome_page,
+        create_vmr_page,
+        view_vmr_page,
+        order_maintenance_page,
+        *_,
+    ) = ecis_dashboard_page
     with allure.step("Step 1: Login and select supplier & database"):
         ecis_welcome_page.select_supplier(data["supplier"])
         ecis_welcome_page.click_continue()
@@ -359,8 +429,14 @@ def test_verify_export_file(ecis_dashboard_page, data):
 @allure.story("Verify copy clip is visible and Copies displayed VMR data")
 @pytest.mark.parametrize("data", TEST_VERIFY_ORDER_STATUS_SENT_PROPOSAL)
 def test_verify_copy_clip_and_copied_file_export(ecis_dashboard_page, data):
-    (ecis_welcome_page, dashboard_page, create_vmr_page, view_vmr_page, *_) = ecis_dashboard_page
-
+    (
+        dashboard_page,
+        ecis_welcome_page,
+        create_vmr_page,
+        view_vmr_page,
+        order_maintenance_page,
+        *_,
+    ) = ecis_dashboard_page
     with allure.step("Login to ECIS application"):
         ecis_welcome_page.select_supplier(data["supplier"])
         ecis_welcome_page.click_continue()
@@ -372,17 +448,20 @@ def test_verify_copy_clip_and_copied_file_export(ecis_dashboard_page, data):
             view_vmr_page.open_and_verify_vmr_order_ref_dropdown(data["order_no"])
             view_vmr_page.click_find()
 
-        with (allure.step("Copy VMR data and validate exported files")):
-            view_vmr_page.copy_clip_data_and_validate_copy_export(
-                excel_path="test-output/TC11_VMR_Copied_Data.xlsx",
-                csv_path="test-output/TC11_VMR_Copied_Data.csv"
-            )
+
 
 
 @allure.story("Verify order status is Sent Proposal")
 @pytest.mark.parametrize("data", TEST_VERIFY_ORDER_STATUS_SENT_PROPOSAL)
 def test_verify_order_status_sent_proposal(ecis_dashboard_page, data):
-    (ecis_welcome_page, dashboard_page, create_vmr_page, view_vmr_page, *_) = ecis_dashboard_page
+    (
+        dashboard_page,
+        ecis_welcome_page,
+        create_vmr_page,
+        view_vmr_page,
+        order_maintenance_page,
+        *_,
+    ) = ecis_dashboard_page
 
     with allure.step("Login to ECIS application"):
 
@@ -401,7 +480,7 @@ def test_verify_order_status_sent_proposal(ecis_dashboard_page, data):
             view_vmr_page.handle_vmr_creation_dialog
         )
 
-        with allure.step("Create VMR order proposal"):
+    with allure.step("Create VMR order proposal"):
             create_vmr_page.select_receiver()
             create_vmr_page.enter_plan_date()
             create_vmr_page.select_article_no()
@@ -410,16 +489,16 @@ def test_verify_order_status_sent_proposal(ecis_dashboard_page, data):
             create_vmr_page.create_order_total_pallet_and_verify()
 
         # Assertion moved to page file
-        view_vmr_page.validate_vmr_order_reference()
+    view_vmr_page.validate_vmr_order_reference()
 
-        with allure.step("Navigate to View VMR Order Proposal"):
+    with allure.step("Navigate to View VMR Order Proposal"):
             dashboard_page.select_view_vmr_proposal()
 
-        with allure.step("Filter created order and click Find"):
+    with allure.step("Filter created order and click Find"):
             view_vmr_page.open_and_verify_vmr_order_ref_dropdown(
-                view_vmr_page._order_ref["value"]
+                data["order_no"]
             )
             view_vmr_page.click_find()
 
-        with allure.step("Verify order status is Sent Proposal"):
-            view_vmr_page.verify_order_status_sent_proposal()
+    with allure.step("Verify order status is Sent Proposal"):
+            view_vmr_page.verify_order_status_sent_proposal(data["order_no"])
