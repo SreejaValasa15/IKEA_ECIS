@@ -21,14 +21,13 @@ def test_copy_clip(ecis_dashboard_page, test_data):
         ecis_welcome_page,
         *_,
         ecis_consignment_page,
-        ecis_order_report_page
-
+        ecis_order_report_page,
+        consignment_report_page,
     ) = ecis_dashboard_page
 
-    with allure.step("Select the database and supplier"):
-        dashboard_page.select_database(test_data["database"])
-        dashboard_page.select_supplier(test_data["scode"])
-        dashboard_page.click_continue()
+    with allure.step("Select the  supplier"):
+        ecis_welcome_page.select_supplier(test_data["scode"])
+        ecis_welcome_page.click_continue()
 
     with allure.step("Navigate to Order Report"):
         ecis_order_report_page.go_to_reports()
@@ -53,12 +52,12 @@ def test_print_and_download(ecis_dashboard_page, test_data):
         *_,
         ecis_consignment_page,
         ecis_order_report_page,
+        consignment_report_page,
     ) = ecis_dashboard_page
 
-    with allure.step("Select database and supplier"):
-        dashboard_page.select_database(test_data["database"])
-        dashboard_page.select_supplier(test_data["scode"])
-        dashboard_page.click_continue()
+    with allure.step("Select the supplier"):
+        ecis_welcome_page.select_supplier(test_data["scode"])
+        ecis_welcome_page.click_continue()
 
     with allure.step("Navigate to Order Report"):
         ecis_order_report_page.go_to_reports()
@@ -77,21 +76,21 @@ def test_print_and_download(ecis_dashboard_page, test_data):
 # ------------------------------------------------------------
 
 @allure.feature("Report Export")
-# @pytest.mark.parametrize("export_type", ["PDF","Microsoft Excel(XLS)"])
-@pytest.mark.parametrize("export_type", TEST_REPORT_EXPORT)
-def test_report_export(ecis_dashboard_page, export_type):
+
+@pytest.mark.parametrize("test_data", TEST_REPORT_EXPORT)
+def test_report_export(ecis_dashboard_page, test_data):
     (
         dashboard_page,
         ecis_welcome_page,
         *_,
         ecis_consignment_page,
         ecis_order_report_page,
+        consignment_report_page,
     ) = ecis_dashboard_page
 
-    with allure.step("Select database and supplier"):
-        dashboard_page.select_database(export_type["database"])
-        dashboard_page.select_supplier(export_type["scode"])
-        dashboard_page.click_continue()
+    with allure.step("Select the supplier"):
+        ecis_welcome_page.select_supplier(test_data["scode"])
+        ecis_welcome_page.click_continue()
 
     with allure.step("Navigate to Order Report"):
         ecis_order_report_page.go_to_reports()
@@ -116,15 +115,18 @@ def test_report_export(ecis_dashboard_page, export_type):
 @pytest.mark.parametrize("test_data", TEST_ORDER_REPORTS_MATRIX)
 def test_order_reports_matrix(ecis_dashboard_page, test_data):
     (
-        ecis_welcome_page,
         dashboard_page,
+        ecis_welcome_page,
         *_,
-        ecis_order_report_page
+        ecis_consignment_page,
+        ecis_order_report_page,
+        consignment_report_page,
     ) = ecis_dashboard_page
 
-    with allure.step("Select supplier and database"):
+    with allure.step("Select the database and supplier"):
         ecis_welcome_page.select_supplier(test_data["scode"])
         ecis_welcome_page.click_continue()
+
 
     with allure.step("Reports Menu"):
         dashboard_page.dashboard_page()
@@ -141,10 +143,12 @@ def test_order_reports_matrix(ecis_dashboard_page, test_data):
 @pytest.mark.parametrize("test_data", TEST_SAVE_ORDER_REPORT)
 def test_save_order_report(ecis_dashboard_page, test_data):
     (
-        ecis_welcome_page,
         dashboard_page,
+        ecis_welcome_page,
         *_,
-        ecis_order_report_page
+        ecis_consignment_page,
+        ecis_order_report_page,
+        consignment_report_page,
     ) = ecis_dashboard_page
 
     with allure.step("Select supplier and database"):
@@ -183,11 +187,12 @@ def test_verify_order_report_export(ecis_dashboard_page,test_data):
         *_,
         ecis_consignment_page,
         ecis_order_report_page,
+        consignment_report_page,
     ) = ecis_dashboard_page
 
-    with allure.step("Select supplier"):
-        dashboard_page.select_supplier(test_data["supplier"])
-        dashboard_page.click_continue()
+    with allure.step("Select the database and supplier"):
+        ecis_welcome_page.select_supplier(test_data["scode"])
+        ecis_welcome_page.click_continue()
 
     with allure.step("Navigate to Order Report"):
         ecis_order_report_page.navigate_to_order()
@@ -208,12 +213,12 @@ def test_verify_order_report_search_operations(ecis_dashboard_page, data):
         *_,
         ecis_consignment_page,
         ecis_order_report_page,
+        consignment_report_page,
     ) = ecis_dashboard_page
 
-    with allure.step("Select supplier and database"):
-        dashboard_page.select_supplier(data["scode"])
-        dashboard_page.click_continue()
-
+    with allure.step("Select the database and supplier"):
+        ecis_welcome_page.select_supplier(data["scode"])
+        ecis_welcome_page.click_continue()
     with allure.step("Navigate to Order Report"):
         ecis_order_report_page.navigate_to_order()
 

@@ -14,8 +14,8 @@ from testdata.ecis_order_maintenance_data import(TEST_VALIDATE_CANCELLED_ORDER)
 @pytest.mark.parametrize("test_data",TEST_ORDER_MAINTENANCE_CANCELLATIONS)
 def test_ecis_order_maintenance_cancellations(ecis_dashboard_page,test_data):
     (
-        ecis_welcome_page,
         dashboard_page,
+        ecis_welcome_page,
         create_vmr_page,
         view_vmr_page,
         order_maintenance_page,
@@ -61,8 +61,8 @@ def test_ecis_order_maintenance_cancellations(ecis_dashboard_page,test_data):
 @pytest.mark.parametrize("test_data",TEST_ORDER_MAINTENANCE_MOVE)
 def test_ecis_order_maintenance_move(ecis_dashboard_page,test_data):
     (
-        ecis_welcome_page,
         dashboard_page,
+        ecis_welcome_page,
         create_vmr_page,
         view_vmr_page,
         order_maintenance_page,
@@ -103,8 +103,8 @@ def test_ecis_order_maintenance_move(ecis_dashboard_page,test_data):
 @pytest.mark.parametrize("test_data",TEST_ORDER_MAINTENANCE_DWP_KEY)
 def test_ecis_order_maintenance_dwp_key(ecis_dashboard_page,test_data):
     (
-        ecis_welcome_page,
         dashboard_page,
+        ecis_welcome_page,
         create_vmr_page,
         view_vmr_page,
         order_maintenance_page,
@@ -141,8 +141,8 @@ def test_ecis_order_maintenance_dwp_key(ecis_dashboard_page,test_data):
 @pytest.mark.parametrize("test_data",TEST_BLOCKED_ORDER_POPUP)
 def test_blocked_order_popup_handling(ecis_dashboard_page,test_data):
     (
-        ecis_welcome_page,
         dashboard_page,
+        ecis_welcome_page,
         create_vmr_page,
         view_vmr_page,
         order_maintenance_page,
@@ -175,8 +175,8 @@ def test_blocked_order_popup_handling(ecis_dashboard_page,test_data):
 @pytest.mark.parametrize("test_data",TEST_VALIDATE_CANCELLED_ORDER)
 def test_validate_cancelled_order_status(ecis_dashboard_page,test_data):
     (
-        ecis_welcome_page,
         dashboard_page,
+        ecis_welcome_page,
         create_vmr_page,
         view_vmr_page,
         order_maintenance_page,
@@ -206,8 +206,8 @@ def test_validate_cancelled_order_status(ecis_dashboard_page,test_data):
 @pytest.mark.parametrize("test_data",TEST_VERIFY_EXPORT_FILE_DATA)
 def test_verify_export_file(ecis_dashboard_page,test_data):
     (
-        ecis_welcome_page,
         dashboard_page,
+        ecis_welcome_page,
         create_vmr_page,
         view_vmr_page,
         order_maintenance_page,
@@ -238,8 +238,8 @@ def test_verify_export_file(ecis_dashboard_page,test_data):
 @pytest.mark.parametrize("test_data",TEST_VERIFY_COPY_CLIP_DATA)
 def test_verify_copyclip(ecis_dashboard_page,test_data):
     (
-        ecis_welcome_page,
         dashboard_page,
+        ecis_welcome_page,
         create_vmr_page,
         view_vmr_page,
         order_maintenance_page,

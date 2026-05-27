@@ -18,7 +18,7 @@ TEST_SELECT_DIFF_INCOTERM_CONSIGNMENT =[{
 
 TEST_ECIS_CREATE_CONSIGNMENT =[{
         "scode": "15653",
-         "rvc_code": "017"
+         "rvc_code": "001"
 
 }]
 TEST_ECIS_BOOK_TRIP_CONSIGNMENT =[{

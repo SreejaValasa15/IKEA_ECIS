@@ -162,7 +162,7 @@ def test_consignment_invoice_flow(ecis_dashboard_page, data):
     with allure.step("Close all open pages"):
         invoice_preview.close()
         booking_popup.close()
-        
+
 @allure.story("Consignment information report for DDC or COS related reports")
 @pytest.mark.parametrize( "data",
     CONSIGNMENT_TEST_DATA_FOR_DDC_OR_COS,
