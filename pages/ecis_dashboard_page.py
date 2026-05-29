@@ -10,8 +10,19 @@ class EcisDashboardPage:
         self.create_vmr_proposal = page.get_by_role("link", name="Create VMR Proposal")
         self.view_vmr_proposal = page.get_by_role( "link", name="View VMR Proposal")
         self.menu_reports = page.get_by_role("link", name="Reports")
+        self.menu_supplier = page.locator("li a:has-text('Supplier')")
+        self.submenu_user_pref = page.locator("a:has-text('User Preferences')")
 
-
+    def update_user_preferences(self):
+        self.page.wait_for_timeout(2000)
+        self.menu_supplier.first.hover()
+        self.submenu_user_pref.click()
+        self.page.wait_for_timeout(2000)
+        self.page.locator("#tabUser").click()
+        self.page.wait_for_timeout(2000)
+        self.page.locator("#rdbUserSearch").click()
+        self.page.wait_for_timeout(2000)
+        self.page.locator("#btnSave").click()
     def dashboard_page(self):
         expect(self.order_maintenance).to_be_visible(timeout=10000)
 

@@ -151,6 +151,7 @@ def test_ecis_create_consignment(ecis_dashboard_page,data):
 
     with allure.step("Maintenance Menu"):
         dashboard_page.dashboard_page()
+        dashboard_page.update_user_preferences()
         dashboard_page.click_maintenance()
 
     with allure.step("click on Consignment menu"):
@@ -163,7 +164,10 @@ def test_ecis_create_consignment(ecis_dashboard_page,data):
         ecis_consignment_page.select_receiver(data["rvc_code"])
 
     with allure.step("click create new consignment button"):
-        ecis_consignment_page.click_create_new_consignment()
+        consignment_id = ecis_consignment_page.click_create_new_consignment()
+
+    with allure.step("verify consignment in grid"):
+        ecis_consignment_page.verify_consignment_in_grid(consignment_id)
 
 @allure.story("Creation of Consignment from Created to Tripbook")
 @pytest.mark.parametrize("data", TEST_ECIS_BOOK_TRIP_CONSIGNMENT)
@@ -184,13 +188,15 @@ def test_ecis_book_trip_consignment(ecis_dashboard_page,data):
 
     with allure.step("Maintenance Menu"):
         dashboard_page.dashboard_page()
+        dashboard_page.update_user_preferences()
         dashboard_page.click_maintenance()
 
     with allure.step("click on Consignment menu"):
         ecis_consignment_page.click_consignments_link()
 
     with allure.step("select the consignment to book trip"):
-        ecis_consignment_page.select_consignment_to_book_trip(data["rvc_code"])
+        ecis_consignment_page.verify_consignment_in_grid(data["cons_id"])
+        ecis_consignment_page.select_consignment_to_book_trip(data["cons_id"])
 
     with allure.step("click on view consignment details and Book Trip"):
         ecis_consignment_page.view_consignment_details_book_trip()
@@ -214,18 +220,15 @@ def test_ecis_dispatch_consignment(ecis_dashboard_page,data):
 
     with allure.step("Maintenance Menu"):
         dashboard_page.dashboard_page()
+        dashboard_page.update_user_preferences()
         dashboard_page.click_maintenance()
 
     with allure.step("click on Consignment menu"):
         ecis_consignment_page.click_consignments_link()
 
-    with allure.step("select the consignment to book trip"):
-        ecis_consignment_page.select_consignment_to_book_trip(data["rvc_code"])
-
-    with allure.step("click on view consignment details and Book Trip"):
-        ecis_consignment_page.view_consignment_details_book_trip()
     with allure.step("select the consignment to dispatch"):
-        ecis_consignment_page.select_consignment_to_dispatch(data["rvc_code"])
+        ecis_consignment_page.verify_consignment_in_grid(data["cons_id"])
+        ecis_consignment_page.select_consignment_to_dispatch(data["cons_id"])
 
     with allure.step("click on view consignment details and dispatch"):
         ecis_consignment_page.view_consignment_details_dispatch()

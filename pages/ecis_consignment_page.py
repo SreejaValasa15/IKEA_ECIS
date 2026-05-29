@@ -279,19 +279,38 @@ class EcisConsignmentPage:
             name="Order Lines Added to Consignment",
             attachment_type=AttachmentType.PNG
         )
+        order_id = popup.locator("input[name='txtCsmNo']").input_value()
         popup.close()
         self.page.wait_for_timeout(2000)
+        return order_id
 
-    def select_consignment_to_dispatch(self, rce_code):
+
+    def verify_consignment_in_grid(self, consign_id):
+        screenshot_bytes = self.page.screenshot(full_page=True)
+        self.page.wait_for_timeout(2000)
+        self.page.locator("#btnClear").click()
+        self.page.wait_for_timeout(2000)
+        self.page.locator("#btnddlCsm").click(force=True)
+        self.page.locator("#mltsel_ddlCsm").click()
+        self.page.locator("#mltsel_ddlCsm").press_sequentially(consign_id, delay=100)
+        self.page.locator("#btnFind").click()
+        self.page.wait_for_timeout(2000)
+        allure.attach(
+            screenshot_bytes,
+            name="Consignment creation verification in grid",
+            attachment_type=AttachmentType.PNG
+        )
+
+    def select_consignment_to_dispatch(self, cons_code):
         screenshot_bytes = self.page.screenshot(full_page=True)
         consignment_row = self.consignment_grid.locator("tbody tr")
         row_count = consignment_row.count()
         for i in range(row_count):
             row = consignment_row.nth(i)
-            rce_text = row.locator("td").nth(2).inner_text().strip()
+            cons_text = row.locator("td").nth(1).inner_text().strip()
             imported_text = row.locator("td").nth(10).inner_text().strip()
             status_text = row.locator("td").nth(4).inner_text().strip()
-            if rce_code in rce_text and status_text == "Trp Booked":
+            if cons_code == cons_text and status_text == "Trp Booked":
                 checkbox = row.locator("td").first.locator("input")
                 checkbox.check()  # safer than click()
                 break
@@ -303,7 +322,7 @@ class EcisConsignmentPage:
                 attachment_type=AttachmentType.PNG
             )
 
-    def select_consignment_to_book_trip(self, rce_code):
+    def select_consignment_to_book_trip(self, cons_code):
         self.screenshot_before(self.page, "Selecting Consignment")
         consignment_row = self.consignment_grid.locator("tbody tr")
         expect(consignment_row.first).to_be_visible(timeout=10000)
@@ -312,10 +331,10 @@ class EcisConsignmentPage:
         for i in range(row_count):
             row = consignment_row.nth(i)
 
-            rce_text = row.locator("td").nth(2).inner_text().strip()
+            cons_text = row.locator("td").nth(1).inner_text().strip()
             status_text = row.locator("td").nth(4).inner_text().strip()
             imported_text = row.locator("td").nth(10).inner_text().strip()
-            if rce_code in rce_text and status_text == "Created":
+            if cons_code == cons_text and status_text == "Created":
             # if rce_code in rce_text and imported_text == "Missing" and status_text == "Created":
                 checkbox = row.locator("td").first.locator("input")
                 checkbox.check()  # safer than click()

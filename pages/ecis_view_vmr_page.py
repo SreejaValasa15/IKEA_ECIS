@@ -48,6 +48,7 @@ class EcisViewVmrPage:
         self.empty_cell = re.compile(r"^$")
         self.result_grid_rows = page.locator("table tbody tr")
         self.export_file_link = page.get_by_role("link", name="Export File")
+        self.total_pallet = page.locator("#btnCreateOrderA")
 
     # ================= SCREENSHOT HELPERS =================
 
@@ -97,22 +98,17 @@ class EcisViewVmrPage:
         expect(self.vmr_status).to_be_visible(timeout=5000)
         self._screenshot_after("Verify Search Options")
 
-    def open_and_verify_vmr_order_ref_dropdown(self, *order_no):
+
+    def open_and_verify_vmr_order_ref_dropdown(self,order_no):
         if not self.panel.is_visible():
             if self.slide_button.is_visible():
                 self.slide_button.click()
             self.page.wait_for_timeout(1000)
             self.panel.wait_for(state="visible", timeout=5000)
-
         self.ref_order_dropdown_button.wait_for(state="visible", timeout=10000)
         self.ref_order_dropdown_button.click()
         self.page.wait_for_timeout(1000)
-
-        # Use passed parameter if available, else fallback to default
-        order_no = order_no[0] if order_no else "232310000001"
-
         found = False
-
         for i in range(self.vmr_order_ref_visible_inputs.count()):
             input_elem = self.vmr_order_ref_visible_inputs.nth(i)
             if input_elem.is_visible() and input_elem.is_enabled():
@@ -121,12 +117,9 @@ class EcisViewVmrPage:
                 expect(input_elem).to_have_value(order_no)
                 found = True
                 break
-
         if not found:
             raise Exception("No visible and enabled input found for VMR Order Ref after clicking dropdown.")
-
         self.vmr_order_ref_dropdown.wait_for(state="visible", timeout=5000)
-
 
 
     def open_and_verify_rcv_code_dropdown(self):
@@ -516,6 +509,8 @@ class EcisViewVmrPage:
             print("Grid row did not appear within timeout.")
         rows = grid.all()
         assert len(rows) == 1
+
+        return ref
 
     def verify_order_status_sent_proposal(self, selected_vmr_ref: str):
         self.page.evaluate("document.body.style.zoom='0.7'")

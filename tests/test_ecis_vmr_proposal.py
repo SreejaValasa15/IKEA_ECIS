@@ -46,7 +46,14 @@ def test_ecis_create_order_per_pallet(ecis_dashboard_page,data):
         create_vmr_page.get_article_numbers_in_grid(expected_article_no=article_number_value)
 
     with allure.step("Create Order Per Pallet and Verify"):
-        create_vmr_page.create_order_per_pallet_and_verify(data["quantity"])
+        order_num = create_vmr_page.create_order_per_pallet_and_verify(data["quantity"])
+
+    with allure.step("Navigate to File → View VMR Order Proposal"):
+        # dashboard_page.click_menu_file()
+        dashboard_page.select_view_vmr_proposal()
+
+    with allure.step("Select one filter (VMR Order Ref OR Art No)"):
+        view_vmr_page.open_and_verify_vmr_order_ref_dropdown(order_num['value'])
 
 @allure.story("Verify that creating VMR proposals on the same day is possible for the same supplier with the same RCV & Article combination using 'Create Order Total Pallet' option")
 @allure.story("Verify that the entered quantity is split correctly according to DWP rules")
@@ -81,7 +88,14 @@ def test_ecis_create_order_total_pallet(ecis_dashboard_page, data):
         create_vmr_page.get_article_numbers_in_grid(expected_article_no=article_number_value)
 
     with allure.step("Create Order Total Pallet and Verify"):
-        create_vmr_page.create_order_total_pallet_and_verify()
+        order_num = view_vmr_page.create_order_total_pallet_and_verify()
+
+    with allure.step("Navigate to File → View VMR Order Proposal"):
+        # dashboard_page.click_menu_file()
+        dashboard_page.select_view_vmr_proposal()
+
+    with allure.step("Select one filter (VMR Order Ref OR Art No)"):
+        view_vmr_page.open_and_verify_vmr_order_ref_dropdown(order_num['value'])
 
 @allure.story("Verify that the Search filter is available in the top of the screen")
 @allure.story("Verify that all the search options are available")
