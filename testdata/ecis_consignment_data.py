@@ -17,20 +17,17 @@ TEST_SELECT_DIFF_INCOTERM_CONSIGNMENT =[{
 }]
 
 TEST_ECIS_CREATE_CONSIGNMENT =[{
-        "scode": "15653",
-         "rvc_code": "001"
+        "scode": "20403",
+         "rvc_code": "016"
 
 }]
 TEST_ECIS_BOOK_TRIP_CONSIGNMENT =[{
-        "scode": "15653",
-         "rvc_code": "017"
-
-
+        "scode": "20403",
+        "cons_id": "ECIS99024"
 }]
 TEST_ECIS_DISPATCH_CONSIGNMENT =[{
-        "scode": "15653",
-         "rvc_code": "017"
-
+        "scode": "20403",
+        "cons_id": "ECIS9901"
 }]
 
 TEST_ECIS_SHIPWITHGROUP_CONSIGNMENT =[{

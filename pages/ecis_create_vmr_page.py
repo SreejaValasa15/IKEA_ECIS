@@ -201,7 +201,6 @@ class EcisCreateVmrPage:
         def handle_dialog(dialog):
             alert_text = dialog.message
             ref['value'] = alert_text.split(":")[-1].strip()
-            print(f"Dialog appeared with message: {alert_text}")
             allure.attach(
                 self.page.screenshot(full_page=True),
                 name="Dialog Message",
@@ -227,6 +226,7 @@ class EcisCreateVmrPage:
             name="vmr creation",
             attachment_type=allure.attachment_type.PNG
         )
+        return ref
 
     def open_vmr_order(self):
         try :
