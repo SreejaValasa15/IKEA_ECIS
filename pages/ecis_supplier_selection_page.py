@@ -3,6 +3,7 @@ class EcisSupplierSelectionPage:
     def __init__(self, page):
         self.page = page
         self.username = page.locator("#txtUserName")
+        #class-> .  id->#
         self.database_dropdown = page.locator("#ddlDatabase")
         self.supplier_dropdown = page.locator("#ddlSuppliers")
         self.continue_button = page.locator("#btnContinue")
